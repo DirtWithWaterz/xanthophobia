@@ -1,0 +1,4 @@
+repository "Xanthophobia@Xanthophobia@cloud"
+  path "/"
+    br "/main"
+    co "/main"
