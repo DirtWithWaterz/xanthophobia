@@ -227,9 +227,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: fe6c0000
-      m_LastClickedID: 27902
-      m_ExpandedIDs: 12fbfffffe6c0000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 16fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -529,9 +529,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 44.924892, y: -97.25561, z: -96.48684}
+    m_Target: {x: 13.7961445, y: -71.37454, z: -127.765656}
     speed: 2
-    m_Value: {x: 44.924892, y: -97.25561, z: -96.48684}
+    m_Value: {x: 13.7961445, y: -71.37454, z: -127.765656}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -578,9 +578,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.0865654, y: -0.90091455, z: 0.36907315, w: -0.21131912}
+    m_Target: {x: -0.017029634, y: -0.954093, z: 0.29389182, w: -0.05529904}
     speed: 2
-    m_Value: {x: -0.08688177, y: -0.9003548, z: 0.370422, w: -0.21118782}
+    m_Value: {x: 0.017029632, y: 0.9540929, z: -0.2938918, w: 0.055299036}
   m_Size:
     m_Target: 92.94926
     speed: 2
@@ -970,22 +970,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Game/Textures/Floor 0
+    - Assets/Game/Prefabs/Level 0
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Game/Textures/Floor 0
+  - Assets/Game/Prefabs/Level 0
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\Unity Projects\xanthophobia\Xanthophobia
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 89}
-    m_SelectedIDs: a4ca0000
-    m_LastClickedID: 51876
-    m_ExpandedIDs: 00000000d6a20000d8a20000daa20000dca20000dea20000e0a20000e2a20000f0a20000f2a20000f4a20000f6a20000f0a30000f4a3000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: e8a20000
+    m_LastClickedID: 41704
+    m_ExpandedIDs: 00000000a0a20000a2a20000a4a20000a6a20000a8a20000aaa20000aca20000aea20000b0a20000b2a20000b4a20000b6a20000bca2000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1013,7 +1013,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000d6a20000d8a20000daa20000dca20000dea20000e0a20000e2a20000f2a20000f4a20000f6a20000f0a30000f4a3000000ca9a3b
+    m_ExpandedIDs: 00000000a0a20000a2a20000a4a20000a6a20000a8a20000aaa20000aca20000aea20000b0a20000b2a20000b4a20000b6a20000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1038,8 +1038,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: fe6c0000
-    m_LastClickedInstanceID: 27902
+    m_SelectedInstanceIDs: 
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000c483feff24b12b00f2850400f485040000000000b6ca0000
     m_RenameOverlay:
@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: -185
+    m_CachedPref: -268
     m_ControlHash: 1412526313
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1

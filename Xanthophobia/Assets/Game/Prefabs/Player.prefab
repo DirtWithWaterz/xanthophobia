@@ -1495,9 +1495,9 @@ MonoBehaviour:
   sprintSpeed: 6
   crouchSpeed: 1.5
   slopeSpeed: 8
-  idleBreatheSpeed: 0.04
-  currentSpeed: 0
-  timeToSwitchSpeed: 0.3
+  idleBreatheSpeed: 0.1
+  currentSpeed: 0.1
+  timeToSwitchSpeed: 0.5
   lookSpeedX: 2
   lookSpeedY: 2
   upperLookLimit: 80
@@ -1512,8 +1512,8 @@ MonoBehaviour:
   walkBobSpeed: 0.8
   sprintBobSpeed: 1
   crouchBobSpeed: 0.4
-  _amplitude: 0.0507
-  _frequency: 15.2
+  _amplitude: 0.0336
+  _frequency: 16
   timeToZoom: 0.3
   zoomFOV: 30
   interactionRayPoint: {x: 0.5, y: 0.5, z: 0}

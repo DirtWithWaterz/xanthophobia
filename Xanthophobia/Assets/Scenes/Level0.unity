@@ -1306,7 +1306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goFollow: {fileID: 900729380}
-  speed: 4
+  speed: 6
 --- !u!1001 &725475311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4222,40 +4222,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 227055467660510160, guid: 7ba504950fc24d748b9850f221ddf1bb,
-        type: 3}
-      propertyPath: m_TargetTexture
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 227055468925836768, guid: 7ba504950fc24d748b9850f221ddf1bb,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 227055468925836773, guid: 7ba504950fc24d748b9850f221ddf1bb,
-        type: 3}
-      propertyPath: _amplitude
-      value: 0.0307
-      objectReference: {fileID: 0}
-    - target: {fileID: 227055468925836773, guid: 7ba504950fc24d748b9850f221ddf1bb,
-        type: 3}
-      propertyPath: _frequency
-      value: 14.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 227055468925836773, guid: 7ba504950fc24d748b9850f221ddf1bb,
-        type: 3}
-      propertyPath: currentSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 227055468925836773, guid: 7ba504950fc24d748b9850f221ddf1bb,
-        type: 3}
-      propertyPath: idleBreatheSpeed
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 227055468925836773, guid: 7ba504950fc24d748b9850f221ddf1bb,
-        type: 3}
-      propertyPath: timeToSwitchSpeed
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 227055468925836774, guid: 7ba504950fc24d748b9850f221ddf1bb,
         type: 3}
