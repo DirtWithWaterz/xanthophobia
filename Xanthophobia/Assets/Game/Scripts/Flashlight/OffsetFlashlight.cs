@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OffsetFlashlight : MonoBehaviour
 {
@@ -13,13 +11,8 @@ public class OffsetFlashlight : MonoBehaviour
     {
         vectOffset = transform.position - goFollow.transform.position;
     }
-
-
-
-
-    void FixedUpdate()
+    void LateUpdate()
     {
-        transform.position = goFollow.transform.position + vectOffset;
-        transform.rotation = Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime);
+        transform.SetPositionAndRotation(goFollow.transform.position + vectOffset, Quaternion.Slerp(transform.rotation, goFollow.transform.rotation, speed * Time.deltaTime));
     }
 }

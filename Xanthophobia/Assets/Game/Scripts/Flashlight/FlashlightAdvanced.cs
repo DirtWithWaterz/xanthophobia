@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
 public class FlashlightAdvanced : MonoBehaviour
@@ -43,7 +41,7 @@ public class FlashlightAdvanced : MonoBehaviour
         text.text = lifetime.ToString("0") + "%";
         batteryText.text = batteries.ToString();
 
-        if(Input.GetKeyDown(KeyCode.F) && off)
+        if (Input.GetKeyDown(KeyCode.F) && off)
         {
             flashON.Play();
             light.enabled = true;
@@ -62,12 +60,14 @@ public class FlashlightAdvanced : MonoBehaviour
         if (on)
         {
             lifetime -= 0.06f * Time.deltaTime;
-        } else if(off){
+        }
+        else if (off)
+        {
             lifetime -= 0.03f * Time.deltaTime;
         }
         batterySlider.value = lifetime / 25;
 
-        if(lifetime <= 0)
+        if (lifetime <= 0)
         {
             light.enabled = false;
             on = false;
@@ -91,7 +91,7 @@ public class FlashlightAdvanced : MonoBehaviour
             return;
         }
 
-        if(batteries <= 0)
+        if (batteries <= 0)
         {
             batteries = 0;
         }

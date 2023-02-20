@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,69 +16,87 @@ public class Camcorder : MonoBehaviour
 
     bool BattBlinkOn = false;
 
-    void Awake(){
-        #if !UNITY_EDITOR
+    void Awake()
+    {
+#if !UNITY_EDITOR
         videoPlayer.enabled = true;
         videoPlayer.Play();
         videoPlayer.targetCameraAlpha = 1;
-        #endif
+#endif
     }
 
-    void Start(){
-        if(DateTime.Now.Month == 1)
+    void Start()
+    {
+        if (DateTime.Now.Month == 1)
         {
             month = "JAN";
-        } else if(DateTime.Now.Month == 2)
+        }
+        else if (DateTime.Now.Month == 2)
         {
             month = "FEB";
-        } else if(DateTime.Now.Month == 3)
+        }
+        else if (DateTime.Now.Month == 3)
         {
             month = "MAR";
-        } else if(DateTime.Now.Month == 4)
+        }
+        else if (DateTime.Now.Month == 4)
         {
             month = "APR";
-        } else if(DateTime.Now.Month == 5)
+        }
+        else if (DateTime.Now.Month == 5)
         {
             month = "MAY";
-        } else if(DateTime.Now.Month == 6)
+        }
+        else if (DateTime.Now.Month == 6)
         {
             month = "JUN";
-        } else if(DateTime.Now.Month == 7)
+        }
+        else if (DateTime.Now.Month == 7)
         {
             month = "JUL";
-        } else if(DateTime.Now.Month == 8)
+        }
+        else if (DateTime.Now.Month == 8)
         {
             month = "AUG";
-        } else if(DateTime.Now.Month == 9)
+        }
+        else if (DateTime.Now.Month == 9)
         {
             month = "SEP";
-        } else if(DateTime.Now.Month == 10)
+        }
+        else if (DateTime.Now.Month == 10)
         {
             month = "OCT";
-        } else if(DateTime.Now.Month == 11)
+        }
+        else if (DateTime.Now.Month == 11)
         {
             month = "NOV";
-        } else
+        }
+        else
         {
             month = "DEC";
         }
     }
 
-    void Update(){
-        if(!videoPlayer.isPlaying){
+    void Update()
+    {
+        if (!videoPlayer.isPlaying)
+        {
             StartCoroutine(WaitaSec());
-        } else{
+        }
+        else
+        {
             videoPlayer.enabled = true;
             videoPlayer.targetCameraAlpha = 1;
         }
-        if(Batt02.value == 0)
+        if (Batt02.value == 0)
         {
-            if(!BattBlinkOn)
+            if (!BattBlinkOn)
                 StartCoroutine(BatteryBlinkOn());
-            if(BattBlinkOn)
+            if (BattBlinkOn)
                 StartCoroutine(BatteryBlinkOff());
 
-        } else{Batt01.enabled = true;}
+        }
+        else { Batt01.enabled = true; }
 
         dateTime.text = DateTime.Now.ToString("hh:mm tt", CultureInfo.InstalledUICulture) + "\n" + DateTime.Now.Date.ToString("dd") + " " + month + ". " + DateTime.Now.Year;
     }
@@ -87,11 +104,12 @@ public class Camcorder : MonoBehaviour
     private IEnumerator WaitaSec()
     {
         yield return new WaitForSeconds(2);
-        if(!videoPlayer.isPlaying){
+        if (!videoPlayer.isPlaying)
+        {
             videoPlayer.enabled = false;
             videoPlayer.targetCameraAlpha = 0;
         }
-        else{videoPlayer.targetCameraAlpha = 1;}
+        else { videoPlayer.targetCameraAlpha = 1; }
     }
 
     private IEnumerator BatteryBlinkOff()

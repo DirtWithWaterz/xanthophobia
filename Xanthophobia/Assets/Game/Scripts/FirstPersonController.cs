@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FirstPersonController : MonoBehaviour
@@ -49,8 +48,8 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float crouchHeight = 0.5f;
     [SerializeField] private float standingHeight = 1.75f;
     [SerializeField] private float timeToCrouch = 0.25f;
-    [SerializeField] private Vector3 crouchingCenter = new Vector3(0, 0.5f, 0);
-    [SerializeField] private Vector3 standingCenter = new Vector3(0, 0.87f, 0);
+    [SerializeField] private Vector3 crouchingCenter = new(0, 0.5f, 0);
+    [SerializeField] private Vector3 standingCenter = new(0, 0.87f, 0);
     private bool isCrouching;
     private bool duringCrouchAnimation;
 
@@ -78,11 +77,13 @@ public class FirstPersonController : MonoBehaviour
     {
         get
         {
-            if(characterController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit ladderHit, 2.5f) && ladderHit.collider.gameObject.tag == "Ladder")
+            if (characterController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit ladderHit, 2.5f) && ladderHit.collider.gameObject.CompareTag("Ladder"))
             {
                 ladderHitPointNormal = ladderHit.normal;
                 return Vector3.Angle(ladderHitPointNormal, Vector3.down) < characterController.slopeLimit;
-            } else{
+            }
+            else
+            {
                 return false;
             }
         }
@@ -92,13 +93,15 @@ public class FirstPersonController : MonoBehaviour
     {
         get
         {
-            if(characterController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 2.5f))
+            if (characterController.isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit slopeHit, 2.5f))
             {
-                if(slopeHit.collider.gameObject.tag != "Ladder")
+                if (!slopeHit.collider.gameObject.CompareTag("Ladder"))
                 {
                     hitPointNormal = slopeHit.normal;
                     return Vector3.Angle(hitPointNormal, Vector3.up) > characterController.slopeLimit;
-                } else{
+                }
+                else
+                {
                     return false;
                 }
             }
@@ -122,6 +125,7 @@ public class FirstPersonController : MonoBehaviour
     private Vector2 currentInput;
 
     private float rotationX = 0;
+    private float rotationY = 0;
 
     void Awake()
     {
@@ -135,25 +139,25 @@ public class FirstPersonController : MonoBehaviour
 
     void Update()
     {
-        if(CanMove)
+        if (CanMove)
         {
             HandleMovementInput();
             HandleMouseLook();
             defaultYPos = characterController.height - 0.2f;
 
-            if(canJump)
+            if (canJump)
                 HandleJump();
-            
-            if(canCrouch)
+
+            if (canCrouch)
                 HandleCrouch();
 
-            if(canUseHeadbob)
+            if (canUseHeadbob)
                 HandleHeadbob();
 
-            if(canZoom)
+            if (canZoom)
                 HandleZoom();
 
-            if(canInteract)
+            if (canInteract)
             {
                 HandleInteractionCheck();
                 HandleInteractionInput();
@@ -162,7 +166,20 @@ public class FirstPersonController : MonoBehaviour
             ApplyFinalMovements();
         }
     }
-
+    private void LateUpdate()
+    {
+        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
+        transform.rotation = Quaternion.Euler(0, rotationY, 0);
+        if (canUseHeadbob)
+        {
+            if (Mathf.Abs(moveDirection.x) == 0f || Mathf.Abs(moveDirection.z) == 0f)
+                playerCamera.transform.localPosition = new Vector3(playerCamera.transform.localPosition.x, characterController.height - 0.2f, 0.146f);
+        }
+        else
+        {
+            playerCamera.transform.localPosition = new Vector3(playerCamera.transform.localPosition.x, characterController.height - 0.2f, 0.146f);
+        }
+    }
     private void HandleMovementInput()
     {
         currentInput = new Vector2((isCrouching ? crouchSpeed : IsSprinting ? sprintSpeed : walkSpeed) * Input.GetAxis("Vertical"), (isCrouching ? crouchSpeed : IsSprinting ? sprintSpeed : walkSpeed) * Input.GetAxis("Horizontal"));
@@ -174,43 +191,37 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleMouseLook()
     {
-        rotationX -= Input.GetAxis("Mouse Y") * lookSpeedY;
+        rotationX -= Input.GetAxisRaw("Mouse Y") * lookSpeedY;
         rotationX = Mathf.Clamp(rotationX, -upperLookLimit, lowerLookLimit);
-        playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * lookSpeedX, 0);
-        if(canUseHeadbob){
-            if(Mathf.Abs(moveDirection.x) == 0f || Mathf.Abs(moveDirection.z) == 0f)
-                playerCamera.transform.localPosition = new Vector3(playerCamera.transform.localPosition.x, characterController.height - 0.2f, 0.146f);
-            } else{
-                playerCamera.transform.localPosition = new Vector3(playerCamera.transform.localPosition.x, characterController.height - 0.2f, 0.146f);
-        }
+        rotationY += Input.GetAxisRaw("Mouse X") * lookSpeedX;
+
     }
 
     private void HandleJump()
     {
-        if(ShouldJump)
+        if (ShouldJump)
             moveDirection.y = jumpForce;
     }
 
     private void HandleCrouch()
     {
-        if(ShouldCrouch)
+        if (ShouldCrouch)
             StartCoroutine(CrouchStand());
     }
 
     private void HandleHeadbob()
     {
-        if(!characterController.isGrounded) return;
+        if (!characterController.isGrounded) return;
         StartCoroutine(LerpCamAnim());
 
-        if(Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
+        if (Mathf.Abs(moveDirection.x) > 0.1f || Mathf.Abs(moveDirection.z) > 0.1f)
         {
-            if(!isCrouching && !IsSprinting && !IsSliding) isWalking = true; else{isWalking = false;}
-            
+            if (!isCrouching && !IsSprinting && !IsSliding) isWalking = true; else { isWalking = false; }
+
             timer += Time.deltaTime * currentSpeed;
             playerCamera.transform.localPosition = new Vector3(
                 Mathf.Cos(timer * _frequency / 2) * _amplitude * 2,
-                defaultYPos +  Mathf.Sin(timer * _frequency) * _amplitude,
+                defaultYPos + Mathf.Sin(timer * _frequency) * _amplitude,
                 playerCamera.transform.localPosition.z);
             playerCamera.transform.localRotation = new Quaternion(
                 playerCamera.transform.localRotation.x,
@@ -218,7 +229,9 @@ public class FirstPersonController : MonoBehaviour
                 Mathf.Sin(timer * _frequency / 2) * _amplitude / 3,
                 1);
             idleTimer = timer;
-        } else{
+        }
+        else
+        {
             isWalking = false;
             playerCamera.transform.localRotation = new Quaternion(
                 playerCamera.transform.localRotation.x,
@@ -227,9 +240,10 @@ public class FirstPersonController : MonoBehaviour
                 1);
             playerCamera.transform.localPosition = new Vector3(
                 Mathf.Cos(timer * _frequency / 2) * _amplitude * 2,
-                defaultYPos +  Mathf.Sin(timer * _frequency) * _amplitude,
+                defaultYPos + Mathf.Sin(timer * _frequency) * _amplitude,
                 playerCamera.transform.localPosition.z);
-        } if(!IsSprinting && !isWalking)
+        }
+        if (!IsSprinting && !isWalking)
         {
             StartCoroutine(IdleCamAnim());
         }
@@ -238,27 +252,30 @@ public class FirstPersonController : MonoBehaviour
     private IEnumerator IdleCamAnim()
     {
         idleTimer += Time.deltaTime * currentSpeed;
-        if(isCrouching){
+        if (isCrouching)
+        {
             playerCamera.transform.localPosition += new Vector3(
                 Mathf.Cos((idleTimer / 10) * _frequency / 1.3f) * _amplitude,
                 Mathf.Sin((idleTimer / 10) * _frequency) * _amplitude * 1.3f,
                 0);
-        } else{
+        }
+        else
+        {
             playerCamera.transform.localPosition += new Vector3(
                 Mathf.Cos(idleTimer * _frequency / 1.3f) * _amplitude,
                 Mathf.Sin(idleTimer * _frequency) * _amplitude * 1.3f,
                 0);
         }
-        
+
         yield return null;
     }
 
     private IEnumerator LerpCamAnim()
     {
         float timeElapsed2 = 0;
-        while(timeElapsed2 < timeToSwitchSpeed)
+        while (timeElapsed2 < timeToSwitchSpeed)
         {
-            currentSpeed = Mathf.Lerp(currentSpeed, (isCrouching ? crouchBobSpeed : IsSprinting ? sprintBobSpeed : isWalking ? walkBobSpeed : idleBreatheSpeed), timeElapsed2/timeToSwitchSpeed);
+            currentSpeed = Mathf.Lerp(currentSpeed, (isCrouching ? crouchBobSpeed : IsSprinting ? sprintBobSpeed : isWalking ? walkBobSpeed : idleBreatheSpeed), timeElapsed2 / timeToSwitchSpeed);
             timeElapsed2 += Time.deltaTime;
             yield return null;
         }
@@ -266,9 +283,9 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleZoom()
     {
-        if(Input.GetKeyDown(zoomKey))
+        if (Input.GetKeyDown(zoomKey))
         {
-            if(zoomRoutine != null)
+            if (zoomRoutine != null)
             {
                 StopCoroutine(zoomRoutine);
                 zoomRoutine = null;
@@ -276,9 +293,9 @@ public class FirstPersonController : MonoBehaviour
 
             zoomRoutine = StartCoroutine(ToggleZoom(true));
         }
-        if(Input.GetKeyUp(zoomKey))
+        if (Input.GetKeyUp(zoomKey))
         {
-            if(zoomRoutine != null)
+            if (zoomRoutine != null)
             {
                 StopCoroutine(zoomRoutine);
                 zoomRoutine = null;
@@ -290,17 +307,17 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleInteractionCheck()
     {
-        if(Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit, interactionDistance) && hit.collider.gameObject.layer == 9)
+        if (Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit, interactionDistance) && hit.collider.gameObject.layer == 9)
         {
-            if(hit.collider.gameObject.layer == 9 && (currentInteractable == null || hit.collider.gameObject.GetInstanceID() != currentInteractable.GetInstanceID()))
+            if (hit.collider.gameObject.layer == 9 && (currentInteractable == null || hit.collider.gameObject.GetInstanceID() != currentInteractable.GetInstanceID()))
             {
                 hit.collider.TryGetComponent(out currentInteractable);
 
-                if(currentInteractable)
+                if (currentInteractable)
                     currentInteractable.OnFocus(this.gameObject);
             }
         }
-        else if(currentInteractable)
+        else if (currentInteractable)
         {
             currentInteractable.OnLoseFocus(this.gameObject);
             currentInteractable = null;
@@ -309,15 +326,16 @@ public class FirstPersonController : MonoBehaviour
 
     private void HandleInteractionInput()
     {
-        if(Input.GetKeyDown(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit, interactionDistance, interactionLayer))
+        if (Input.GetKeyDown(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out _, interactionDistance, interactionLayer))
         {
             currentInteractable.OnInteract(this.gameObject);
         }
-        if(Input.GetKey(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit2, interactionDistance, interactionLayer))
+
+        if (Input.GetKey(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out _, interactionDistance, interactionLayer))
         {
             currentInteractable.OnHoldInteract(this.gameObject);
         }
-        if(Input.GetKeyUp(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out RaycastHit hit3, interactionDistance, interactionLayer))
+        if (Input.GetKeyUp(interactKey) && currentInteractable != null && Physics.Raycast(playerCamera.ViewportPointToRay(interactionRayPoint), out _, interactionDistance, interactionLayer))
         {
             currentInteractable.OnReleaseInteract(this.gameObject);
         }
@@ -325,31 +343,32 @@ public class FirstPersonController : MonoBehaviour
 
     private void ApplyFinalMovements()
     {
-        if(!characterController.isGrounded)
+        if (!characterController.isGrounded)
             moveDirection.y -= gravity * Time.deltaTime;
-        
-        if(characterController.velocity.y < -1 && characterController.isGrounded)
+
+        if (characterController.velocity.y < -1 && characterController.isGrounded)
             moveDirection.y = 0;
-        
-        if(willSlideOnSlopes && IsSliding)
+
+        if (willSlideOnSlopes && IsSliding)
             moveDirection += new Vector3(hitPointNormal.x, -hitPointNormal.y, hitPointNormal.z) * slopeSpeed;
 
-        
 
-        if(IsClimbingLadder)
+
+        if (IsClimbingLadder)
+        {
+            if (Input.GetKey(KeyCode.W))
             {
-                if(Input.GetKey(KeyCode.W)){
-                    moveDirection += new Vector3(ladderHitPointNormal.x, ladderHitPointNormal.y, ladderHitPointNormal.z) * 10;
-                }
+                moveDirection += new Vector3(ladderHitPointNormal.x, ladderHitPointNormal.y, ladderHitPointNormal.z) * 10;
             }
+        }
 
         characterController.Move(moveDirection * Time.deltaTime);
     }
-    
+
 
     private IEnumerator CrouchStand()
     {
-        if(isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 1f))
+        if (isCrouching && Physics.Raycast(playerCamera.transform.position, Vector3.up, 1f))
             yield break;
 
         duringCrouchAnimation = true;
@@ -360,10 +379,10 @@ public class FirstPersonController : MonoBehaviour
         Vector3 targetCenter = isCrouching ? standingCenter : crouchingCenter;
         Vector3 currentCenter = characterController.center;
 
-        while(timeElapsed < timeToCrouch)
+        while (timeElapsed < timeToCrouch)
         {
-            characterController.height = Mathf.Lerp(currentHeight, targetHeight, timeElapsed/timeToCrouch);
-            characterController.center = Vector3.Lerp(currentCenter, targetCenter, timeElapsed/timeToCrouch);
+            characterController.height = Mathf.Lerp(currentHeight, targetHeight, timeElapsed / timeToCrouch);
+            characterController.center = Vector3.Lerp(currentCenter, targetCenter, timeElapsed / timeToCrouch);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
@@ -381,7 +400,7 @@ public class FirstPersonController : MonoBehaviour
         float targetFOV = isEnter ? zoomFOV : defaultFOV;
         float startingFOV = playerCamera.fieldOfView;
         float timeElapsed = 0;
-        while(timeElapsed < timeToZoom)
+        while (timeElapsed < timeToZoom)
         {
             playerCamera.fieldOfView = Mathf.Lerp(startingFOV, targetFOV, timeElapsed / timeToZoom);
             timeElapsed += Time.deltaTime;
