@@ -18,7 +18,7 @@ public class MicrophoneInput : MonoBehaviour {
     public int sampleDataLength = 1024;
  
     private float currentUpdateTime = 0f;
- 
+	private float noiseVolume;
     private float clipLoudness;
     private float[] clipSampleData;
 
@@ -52,11 +52,13 @@ public class MicrophoneInput : MonoBehaviour {
             clipLoudness = 0f;
             foreach (var sample in clipSampleData) {
                 clipLoudness += Mathf.Abs(sample);
-            }
+            } Debug.Log(clipLoudness);
+            noiseVolume = clipLoudness > 26f ? 2 : clipLoudness > 12f ? 1 : 0;
             clipLoudness /= sampleDataLength; //clipLoudness is what you are looking for
-            clipLoudness = clipLoudness > 0.2f ? 2 : clipLoudness > 0.05f ? 1 : 0;
+
+			Debug.Log("Changed: " + noiseVolume);
         }
-        HearingManager.Instance.OnSoundEmitted(gameObject, transform.position, EHeardSoundCategory.ETalking, clipLoudness);
+        HearingManager.Instance.OnSoundEmitted(gameObject, transform.position, EHeardSoundCategory.ETalking, noiseVolume);
     }
 
 	void UpdateMicrophone(){
