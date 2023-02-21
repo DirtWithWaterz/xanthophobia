@@ -1,0 +1,130 @@
+Hello, and thank you very much for purchasing this asset!
+At the bottom of this document you have my contact information, so feel free to reach me if you need so.
+
+IMPORTANT:
+
+Please notice that I'm implementing an online live documentation here: http://www.pipasjourney.com/damianGonzalez/portals/
+There, documentation may have been edited, may have more details or small corrections. If you have any concern, it could be already answered or solved there.
+So I recommend following that link instead of reading this document.
+
+__________________________________________
+
+What's new?
+For details of changes, see the change log: http://pipasjourney.com/damianGonzalez/portals/changes.html , but to sum up, the latest version allows objects below portals being visible from both portals (clones), reduces the ugly effect crossing sideways, has its own first person controller, and improves overall performance.
+
+__________________________________________
+
+So, first, what "fluid portal" means?
+"Fluid portals" means you can enter a portal (from room A to room B) without noticing when you leave one room and enter the other, since you can see the other room at every moment, as if it was really there across the arch.
+
+This portals only teleport from one side. From the other side they look like normal archs.
+
+__________________________________________
+
+What does this package contains?
+This package contains a demo scene and 4 prefabs:
+ - portals back and forth: This is a set of 2 portals.
+ - long tunnel effect one end: This is a tunnel that from outside looks short but from inside is very long. The interior of the tunnel is actually in another location, but in one of the entrances of the short "real" tunnel there is a portal to the long "fake" one.
+ - long tunnel effect both ends: Same as above, but with both ends of the tunnel with portals.
+ - a first person controller
+ 
+__________________________________________
+
+OBJECTS THROUGH PORTALS (CLONES)
+From version 1.3, objects can stand below portals ("in between"), and cross them seamlessly. You can choose whether to use this feature or not.
+
+FULL SUPPORT FOR "SKEWED" PORTALS
+From version 1.1, when two portals has different rotations (for example, one facing north and other facing west, or one in the wall and the other in the roof), they work very smoothly. When something teleports, it also "rotates" its velocity, and changes in position are also calclulated considering the rotations.
+
+NO FLICKERING
+As you can see in the video or in the demo build, when crossing portals, forewards or backwards, there is absolutely no flickering or jumps. Teleportation are really smooth and unnoticeable. Also, the effect of crossing the portal sideways, looking at the edge at the portal (which always was the Achilles heel of this asset) has been reduced to a minimum, it's almost unnoticeable.
+
+CONTROLLER INCLUDED
+In versions 1.0 and 1.1, this asset didn't include a first person controller. Since version 1.2, a simple first person controller is included, so the Demo Scene is completely playable as it is, no 3rd party controller is needed.
+
+DEMO SCENE:
+A fully-playable demo scene is provided. 
+Demo Scene contains demo text, so it uses Text Mesh Pro. Although it's not necessary, it helps demonstrating the functionality of the asset. (The asset per se doesn't require it, only the Demo Scene.) If you run the demo scene and don't have Text Mesh Pro installed, Unity will offer you to do it automatically ("Import TMP Essentials"). If it doesn't happen, you may need to manually go to Package Manager and install Text Mesh Pro.
+
+__________________________________________
+
+
+HOW TO USE
+As you can see here: https://youtu.be/D-cSuouUz8w, in this example of implementation, this package is almost ready to drag and drop to your scene. You just have to import the package and drag the prefabs to your scene.
+
+Just make sure your player has the "Player" tag. If your player has other Tag, type it in the "Player tag" variable in the inspector on the portal's (or tunnel's) main gameobject. Also, if your player has child objects (like a gun, or hands), give those child a special tag, like "DontCrossPortals" and tell the portal, using the filters in the main gameobject.
+
+__________________________________________
+
+
+FIRST PERSON CONTROLLER
+
+Since version 1.2, a simple first person controller is included in the Demo folder. It's simple but "does the trick", it's fully compatible with this asset, and may work as a Demo in case you want to expand it or implement other controller.
+
+All the following, until next title, it's only in case you don't want this simple controller
+
+If the controller you added already has a Camera, delete the original Camera provided. Also, your Main camera must be tagged as MainCamera, and your player must be tagged as Player.
+
+However, keep in mind:
+- FPS Controller from Unity Standard Asset won't allow you to manually change the player position, so it won't work with this asset (the portal will teleport the player, but controller will override that movement, resulting in no teleporting).
+- Rigidbody First Person Controller will work with teleportation, because it allows sudden changes on position, but it doesn't allow rotation changes, so it will work with portals with same rotation on "portal_one" and "portal_two", but will produce undesired effects on "skewed" portals (with different rotations between the two portals of a set). This happens because this asset will apply a rotation to the character, but your first person controller will override that rotation, causing a visual sudden change of rotation (when actually it's a no-change of rotation where it should be one). 
+
+How to correct that?
+
+In order to allow that rotation change, you should force the script to NOT change rotations in that frame (meaning: to not override the rotation made by the portal, actually allowing the player to rotate freely, at least for one frame). In the case of Unity's RigidbodyFirstPersonController, you could go to its script and add a public method like this:
+
+	public void forceMouseLookInit() {
+	   mouseLook.Init(transform, cam.transform);
+	}
+
+...and then, in this package's "teleport" script (in /Scripts folder), go to the final lines of Teleport function, and add this code:
+
+	setup.playerCamera.parent
+		.GetComponent<UnityStandardAssets.Characters.FirstPerson.RigidbodyFirstPersonController>()
+		.forceMouseLookInit();
+	
+__________________________________________
+
+
+NOT RECURSIVE!
+
+Recursive portals (like two parallel portals that create an infinite loop, similar to mirrors facing each other where you see infinite mirrors) is almost done, it's due to next version 1.4. Just keep in mind that current version 1.3 and previous won't give you that. They only render once, so you shouldn't place portals in a way where one portal faces the other.
+
+__________________________________________
+
+
+HOW THIS ASSET WORK?
+
+Let's say you have a set of portals, one portal (A) in room A, and other portal (B) in room B.
+Basically, it works like this: portals have a plane (which, unlike cubes or shperes, only are rendered in 1 face), and also have a camera. But portal A's plane renders the content of portal B's camera, and viceversa, creating the ilussion that room B is really across portal A. 
+
+The necessary objects for this (the camera, the render texture and material) aren't there when the game is stopped, they are automatically created and set up when you start the game. All that happens in "portalSetup" script.
+
+And in every frame, those cameras are positioned and rotated. That happens in "portalCamMovement" script.
+
+When an object, included the player, touches the plane, it's teleported to the other portal, calculating the new position and rotation. That happens in "teleport" script.
+
+If you don't want other object to cross, you can uncheck the "otherObjectsCanCross" variable on the portal object in the inspector.
+
+But how to know when the object to teleport is passing through the "good" side of the portal (through the visible face of the plane) and not the other? For that, I put some triggers called "directionChecker" behind the "good" side.
+
+__________________________________________
+
+
+EVENTS:
+Events are fired when important things happen, and you can suscribe and listen to those events. These events are not for communicate between the scripts (not for internal use), but solely for communicate with you. This way you can add functionality without the need of touching the original code. The script called "portalEventsListenerExample" contains examples on how to do so.
+
+These are the events fired:
+  a) when something teleports
+  b) when portal setup is ready
+  c) when game window resizes
+__________________________________________
+
+Remember to check online documentation, may be much complete than this document.
+
+
+If you need my assistance, feel free to contact me:
+E-mail: info@pipasjourney.com
+Whatsapp: +5492614182648
+
+Damián González

@@ -29,7 +29,7 @@ public class BatteryInteraction : Interactable
             if(!pickUpText.enabled){
                 pickUpText.enabled = true;
                 if(pickUpText.text == "")
-                    pickUpText.text = "PICK UP\n" + "[" + i.GetComponent<FirstPersonController>().interactKey.ToString() + "]";
+                    pickUpText.text = "PICK UP\n" + "[" + "E" + "]";
             }
         }
         }

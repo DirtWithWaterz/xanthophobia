@@ -1,0 +1,48 @@
+COMING UP SOON:
+- Recursive rendering
+- Option to hide the overflow of objects between portals from the not-teleporting side
+
+______________________________
+
+CHANGES TO 1.3: (April 22, 2020)
+- Clones: Now it supports objects below the portal (between portals), using clones
+- Full support for non-rigidbodies players (velocity is not longer used for calculations)
+- Filters, so you can specify which objects can cross, and which ones cannot cross. Useful for childs of the player, like a gun.
+- No more "direction checkers", now direction check is done entirely with calculations
+- Reduction of the ugly effect when you cross looking at the sides of the arch
+
+_______________________________
+
+CHANGES TO 1.2: (April 17, 2020)
+
+- Added my own first person controller. It's simple but effective and 100% compatible with this asset. Now demo scene is 100% playable, no need to add a 3rd party controller.
+
+- Improvements on teleporting script.
+
+- Portals of the set had slightly different configuration from each other, causing not teleporting when going backwards through a portal immediatly after teleporting forwards.
+
+- Corrected: File 'portalEventsListenerExample.cs' was misplaced in 1.1, now is correctly inside /Scripts folder.
+
+______________________________
+
+
+CHANGES TO 1.1:
+
+- Reaction to resizes: Now when game window resizes, it automatically updates all render textures
+
+- Better teleporting for "skewed" portals: Now when two portals has different rotations (for example, one facing north and other facing west, or one in the wall and the other in the roof), when something teleports, it also "rotates" its velocity, and changes in position are also calclulated considering the rotations.
+
+- Events implementation: Now it fires events you can listen:
+  a) when something teleports
+  b) when portal setup is ready
+  c) when game window resizes
+
+- No more flickering bug: Fixed the bug of flickering for one frame, specially crossing it backwards. Now crossing the portal forewards or backwards, slow or fast, doesn't flicker anymore.
+
+- Fallback for portals without rigidbody, or with rigidbody without velocity.
+
+- Documentation is more extensive, and a link to on-line documentation has been provided (http://www.pipasjourney.com/damianGonzalez/portals/).
+
+______________________________
+
+1.0: First release (March 25, 2020)

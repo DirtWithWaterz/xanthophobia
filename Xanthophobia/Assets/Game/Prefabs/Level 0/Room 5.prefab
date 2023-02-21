@@ -414,11 +414,7 @@ MonoBehaviour:
   - {fileID: 2961346335416345143}
   - {fileID: 6249524217759293712}
   - {fileID: 5500098895926462645}
-<<<<<<< Updated upstream
-  Status: 00000001
-=======
-  Status: 01010100
->>>>>>> Stashed changes
+  Status: 01010000
 --- !u!1 &6276086032730875973
 GameObject:
   m_ObjectHideFlags: 0
