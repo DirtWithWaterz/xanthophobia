@@ -32,7 +32,7 @@ public class portalCamMovement : MonoBehaviour
     public void LateUpdate()
     {
         float dist = (transform.position - thisPortal.position).magnitude;
-        thisCamera.nearClipPlane = Mathf.Clamp( dist + clippingOffset, 0.01f, float.MaxValue);
+        //thisCamera.nearClipPlane = Mathf.Clamp( dist + clippingOffset, 0.01f, float.MaxValue);
 
 
         //rotation
