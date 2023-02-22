@@ -111,7 +111,8 @@ public class portalSetup : MonoBehaviour {
         Camera cameraComp = playerCamera.GetComponent<Camera>();
         cameraA.CopyFrom(cameraComp);
         cameraB.CopyFrom(cameraComp);
-
+        cameraA.cullingMask &= ~(1 << 3);
+        cameraB.cullingMask &= ~(1 << 6);
 
         //I setup both camera's scripts
         scriptCamA.playerCamera = playerCamera;

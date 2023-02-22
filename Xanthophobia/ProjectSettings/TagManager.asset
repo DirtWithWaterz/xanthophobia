@@ -9,16 +9,25 @@ TagManager:
   - Ladder
   - PickUpText
   - Flashlight
+  - Ball
+  - DontCrossPortals
+  - 0.01 portals
+  - 0.01 entrance wr
+  - 0.01 entrance
+  - sublevel 0.01
+  - 0.01 door
+  - 0.01 target
+  - 0.01 parent
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - IgnoreA
   - Water
   - UI
-  - 
-  - 
-  - 
+  - IgnoreB
+  - PostProcessing
+  - Ceiling
   - Interactable
   - 
   - 

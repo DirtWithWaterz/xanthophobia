@@ -75,6 +75,7 @@ public class mySimpleFirstPersonController : MonoBehaviour
         HandleInteractionCheck();
         HandleInteractionInput();
         HandleCrouch();
+        
     }
 
     private void HandleInteractionCheck()
@@ -146,5 +147,6 @@ public class mySimpleFirstPersonController : MonoBehaviour
         duringCrouchAnimation = false;
     }
 
+    
 
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1934918641658070149}
   - component: {fileID: 1605288102261442431}
   m_Layer: 0
-  m_Name: Ceiling_light_large
+  m_Name: Ceiling_light_large 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,13 +143,13 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 0.7216981, a: 1}
-  m_Intensity: 1
-  m_Range: 20
+  m_Intensity: 4.09
+  m_Range: 41.88
   m_SpotAngle: 168.09401
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 0
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Version: 1
   m_UsePipelineSettings: 1
-  m_AdditionalLightsShadowResolutionTier: 0
+  m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1
   m_CustomShadowLayers: 0
   m_ShadowLayerMask: 1
